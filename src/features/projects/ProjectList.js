@@ -1,10 +1,10 @@
+import React from "react"
 import { DeleteButton } from "components/common/DeleteButton"
 import { AddButton } from "components/common/AddButton"
-import React from "react"
 import { useDispatch, useSelector } from "react-redux"
 // import CloseButton from "../../components/Projects/CloseButton";
 // import AddButton from "../../components/Projects/AddButton";
-import "./ProjectList.css"
+import "./projects.css"
 import { addProject, deleteProject } from "./projectsSlice"
 
 export const ProjectList = () => {
@@ -42,8 +42,8 @@ export const ProjectList = () => {
         <div className="objects block">
             {projects.map(project => {
                 return (
-                    <div key={project.id} class="objects__object block-element block__element">
-                        <div class="block__element-name block__sub-element">{project.name}</div>
+                    <div key={project.id} className="objects__object block-element block__element">
+                        <div className="block__element-name block__sub-element">{project.name}</div>
                         <DeleteButton onDelete={() => dispatch(deleteProject(project.id))} />
                     </div>
                 )

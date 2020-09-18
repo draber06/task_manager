@@ -1,109 +1,66 @@
 import React, { useState } from "react"
-import CloseBtn from "../CloseBtn"
-import AddPersonalBtn from "./__AddPersonalBtn"
 import "./workers.css"
+import { WorkerListItem } from "./WorkerListItem"
+import { useDispatch, useSelector } from "react-redux"
+import { AddWorker } from "./AddWorker"
 
-function sorting(сoef, setCoef, property, data, setData) {
-    const newData = [...data]
-    const sortingFn = (a, b) => (a[property] > b[property] ? 1 * сoef : -1 * сoef)
-    setData(newData.sort(sortingFn))
-    setCoef(-сoef)
-}
+// function sorting(сoef, setCoef, property, data, setData) {
+//     const newData = [...data]
+//     const sortingFn = (a, b) => (a[property] > b[property] ? 1 * сoef : -1 * сoef)
+//     setData(newData.sort(sortingFn))
+//     setCoef(-сoef)
+// }
 
-function Personal({ activeObjectId, setUserId, setPersonal, personal, dispatch }) {
-    const [nameSortDirection, setNameSortDirection] = useState(1)
-    const [groupSortDirection, setGroupSortDirection] = useState(1)
-    const [regionSortDirection, setRegionSortDirection] = useState(1)
-    const [adressSortDirection, setAdressSortDirection] = useState(1)
-    const [isFormHidden, setIsFormHidden] = useState(true)
+export const WorkerList = () => {
+    // useDispatch()
+    const workers = useSelector(state => state.workers)
+    // const [nameSortDirection, setNameSortDirection] = useState(1)
+    // const [groupSortDirection, setGroupSortDirection] = useState(1)
+    // const [regionSortDirection, setRegionSortDirection] = useState(1)
+    // const [adressSortDirection, setAdressSortDirection] = useState(1)
+    const [formVisibility, toggleFormVisibility] = useState(false)
 
-    const onEmployeeClick = (id, evt) => {
-        if (activeObjectId < 1) return
-        const personal_copy = personal.map(person => {
-            if (person.id === id) person.isFree = false
-            return person
-        })
-        dispatch({ type: "addEmployee", userId: id, objId: activeObjectId })
-        setPersonal(personal_copy)
-    }
+    // const onEmployeeClick = (id, evt) => {
+    //     if (activeObjectId < 1) return
+    //     const personal_copy = personal.map(person => {
+    //         if (person.id === id) person.isFree = false
+    //         return person
+    //     })
+    //     dispatch({ type: "addEmployee", userId: id, objId: activeObjectId })
+    //     setPersonal(personal_copy)
+    // }
 
-    const onNameClick = () => {
-        sorting(nameSortDirection, setNameSortDirection, "last", personal, setPersonal)
-    }
+    // const onNameClick = () => {
+    //     sorting(nameSortDirection, setNameSortDirection, "last", personal, setPersonal)
+    // }
 
-    const onGroupClick = () => {
-        sorting(groupSortDirection, setGroupSortDirection, "group", personal, setPersonal)
-    }
+    // const onGroupClick = () => {
+    //     sorting(groupSortDirection, setGroupSortDirection, "group", personal, setPersonal)
+    // }
 
-    const onRegionClick = () => {
-        sorting(regionSortDirection, setRegionSortDirection, "region", personal, setPersonal)
-    }
+    // const onRegionClick = () => {
+    //     sorting(regionSortDirection, setRegionSortDirection, "region", personal, setPersonal)
+    // }
 
-    const onAdressClick = () => {
-        sorting(adressSortDirection, setAdressSortDirection, "adress", personal, setPersonal)
-    }
-
-    const hideAndShowForm = () => {
-        setIsFormHidden(!isFormHidden)
-    }
-
-    const workers = personal.map(
-        (empolyee, i) =>
-            empolyee.isFree && (
-                <div
-                    className={
-                        "personal__employee block__element " +
-                        (empolyee.group === "М"
-                            ? "personal__employee_group1 "
-                            : "personal__employee_group2 ") +
-                        (empolyee.isGeodesist
-                            ? "personal__employee_geodesist"
-                            : "personal__employee_assistant")
-                    }
-                    onClick={onEmployeeClick.bind(null, empolyee.id)}
-                    key={empolyee.id}
-                >
-                    <div className="personal__name block__sub-element">
-                        {empolyee.last} {empolyee.first.slice(0, 1)}
-                    </div>
-                    <div className="personal__group block__sub-element">{empolyee.group}</div>
-                    <div className="personal__region block__sub-element">{empolyee.region}</div>
-                    <div className="personal__adress block__sub-element">{empolyee.adress}</div>
-                    <div>
-                        <CloseBtn
-                            data={personal}
-                            setData={setPersonal}
-                            id={empolyee.id}
-                            name="personal"
-                        />
-                    </div>
-                </div>
-            )
-    )
+    // const onAdressClick = () => {
+    //     sorting(adressSortDirection, setAdressSortDirection, "adress", personal, setPersonal)
+    // }
 
     return (
         <div className="personal block" style={{ textAlign: "left" }}>
             <div className="personal-header personal__employee block__element">
-                <div className="personal__name block__sub-element" onClick={onNameClick}>
-                    Имя
-                </div>
-                <div className="personal__group block__sub-element" onClick={onGroupClick}>
-                    Г
-                </div>
-                <div className="personal__region block__sub-element" onClick={onRegionClick}>
-                    Р
-                </div>
-                <div className="personal__adress block__sub-element" onClick={onAdressClick}>
-                    Адрес
-                </div>
+                <div className="personal__name block__sub-element">Имя</div>
+                <div className="personal__group block__sub-element">Г</div>
+                <div className="personal__region block__sub-element">Р</div>
+                <div className="personal__adress block__sub-element">Адрес</div>
             </div>
-            {workers}
-            <button onClick={hideAndShowForm}>
-                {isFormHidden ? "Добавить сотрудника" : "Скрыть форму"}
+            {workers.map(worker => (
+                <WorkerListItem key={worker.id} worker={worker} />
+            ))}
+            <button onClick={() => toggleFormVisibility(!formVisibility)}>
+                {formVisibility ? "Скрыть форму" : "Добавить сотрудника"}
             </button>
-            {isFormHidden || <AddPersonalBtn data={personal} setData={setPersonal} />}
+            {formVisibility && <AddWorker />}
         </div>
     )
 }
-
-export default Personal
