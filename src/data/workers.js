@@ -1,9 +1,10 @@
-let regions = ["N", "S", "Н", "Т"]
-let groups = ["М", "К"]
+let regions = ["N", "S", "Н", "Т"];
+let groups = ["М", "К"];
 
-let personal = [
-    {
+const workers = {
+    1: {
         id: 1,
+        free: true,
         first: "Сергей",
         last: "Никитин",
         isGeodesist: true,
@@ -11,8 +12,9 @@ let personal = [
         adress: "Купчино",
         region: regions[1],
     },
-    {
+    2: {
         id: 2,
+        free: true,
         first: "Денис",
         last: "Павлов",
         isGeodesist: true,
@@ -20,8 +22,9 @@ let personal = [
         adress: "Академический",
         region: regions[0],
     },
-    {
+    3: {
         id: 3,
+        free: true,
         first: "Виталий",
         last: "Шпак",
         isGeodesist: true,
@@ -29,8 +32,9 @@ let personal = [
         adress: "Гражданский",
         region: regions[0],
     },
-    {
+    4: {
         id: 4,
+        free: true,
         first: "Александр",
         last: "Клешнин",
         isGeodesist: true,
@@ -38,8 +42,9 @@ let personal = [
         adress: "Сертлово",
         region: regions[0],
     },
-    {
+    5: {
         id: 5,
+        free: true,
         first: "Павел",
         last: "Нехожин",
         isGeodesist: true,
@@ -47,8 +52,9 @@ let personal = [
         adress: "Академический",
         region: regions[0],
     },
-    {
+    6: {
         id: 6,
+        free: true,
         first: "Карницкий",
         last: "Вячеслав",
         isGeodesist: false,
@@ -56,8 +62,9 @@ let personal = [
         adress: "Сертлово",
         region: regions[0],
     },
-    {
+    7: {
         id: 7,
+        free: true,
         first: "Никита",
         last: "Исаков",
         isGeodesist: false,
@@ -65,8 +72,9 @@ let personal = [
         adress: "Мурино",
         region: regions[0],
     },
-    {
+    8: {
         id: 8,
+        free: true,
         first: "Владимир",
         last: "Васюнин",
         isGeodesist: false,
@@ -74,8 +82,9 @@ let personal = [
         adress: "Гражданский",
         region: regions[0],
     },
-    {
+    9: {
         id: 9,
+        free: true,
         first: "Вадим",
         last: "Эрмель",
         isGeodesist: false,
@@ -83,8 +92,9 @@ let personal = [
         adress: "Мурино",
         region: regions[0],
     },
-    {
+    10: {
         id: 10,
+        free: true,
         first: "Родион",
         last: "Площадный",
         isGeodesist: false,
@@ -92,8 +102,9 @@ let personal = [
         adress: "Мурино",
         region: regions[0],
     },
-    {
+    11: {
         id: 11,
+        free: true,
         first: "Александр",
         last: "Леусенко",
         isGeodesist: true,
@@ -101,8 +112,9 @@ let personal = [
         adress: "Софийская",
         region: regions[1],
     },
-    {
+    12: {
         id: 12,
+        free: true,
         first: "Олег",
         last: "Евстафьев",
         isGeodesist: true,
@@ -110,8 +122,9 @@ let personal = [
         adress: "Новгород",
         region: regions[2],
     },
-    {
+    13: {
         id: 13,
+        free: true,
         first: "Никита",
         last: "Баранов",
         isGeodesist: true,
@@ -119,8 +132,9 @@ let personal = [
         adress: "Тверь",
         region: regions[3],
     },
-    {
+    14: {
         id: 14,
+        free: true,
         first: "Андрей",
         last: "Погодин",
         isGeodesist: true,
@@ -128,8 +142,9 @@ let personal = [
         adress: "Тверь",
         region: regions[3],
     },
-    {
+    15: {
         id: 15,
+        free: true,
         first: "Сергей",
         last: "Поляков",
         isGeodesist: false,
@@ -137,8 +152,9 @@ let personal = [
         adress: "Автово",
         region: regions[1],
     },
-    {
+    16: {
         id: 16,
+        free: true,
         first: "Дмитрий",
         last: "Безымянный",
         isGeodesist: false,
@@ -146,8 +162,9 @@ let personal = [
         adress: "Комендантский",
         region: regions[0],
     },
-    {
+    17: {
         id: 17,
+        free: true,
         first: "Владислав",
         last: "Гормылев",
         isGeodesist: false,
@@ -155,8 +172,9 @@ let personal = [
         adress: "Купчино",
         region: regions[1],
     },
-    {
+    18: {
         id: 18,
+        free: true,
         first: "Михаил",
         last: "Николаев",
         isGeodesist: false,
@@ -164,8 +182,9 @@ let personal = [
         adress: "Купчино",
         region: regions[1],
     },
-    {
+    19: {
         id: 19,
+        free: true,
         first: "Михаил",
         last: "Пагин",
         isGeodesist: false,
@@ -173,8 +192,9 @@ let personal = [
         adress: "Ленинский",
         region: regions[1],
     },
-    {
+    20: {
         id: 20,
+        free: true,
         first: "Алексей",
         last: "Арбузов",
         isGeodesist: false,
@@ -182,10 +202,6 @@ let personal = [
         adress: "Гражданский",
         region: regions[0],
     },
-]
+};
 
-let personalInLocalStorage = localStorage.getItem('personal')
-if (personalInLocalStorage)
-    personal = JSON.parse(personalInLocalStorage)
-
-export {personal, groups}
+export { workers, groups };

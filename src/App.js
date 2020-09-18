@@ -1,101 +1,103 @@
-import React, {useReducer, useState } from 'react';
-import './App.css';
-import Personal from './components/Personal';
-import Objects from './components/Objects';
-import {objects} from './Objects'
-import {cars as cars_db} from './cars'
-import {personal as personal_db} from './personal'
-import Cars from './components/Cars';
-import Result from './components/Result';
+import React, { useReducer, useState } from "react";
+import { produce } from "immer";
 
-cars_db.forEach((car, ind) => {
-    cars_db[ind].isFree = true
-});
+import "./App.css";
+import Projects from "./components/Projects";
 
-personal_db.forEach((person, ind) => {
-    personal_db[ind].isFree = true
-});
+import { projects as initialProjects } from "./data/projects";
+import { cars as initialCars } from "./data/cars";
+import { workers as initialWorkers } from "./data/workers";
 
-let work_objects = objects
-    .map(obj => {
-        let new_obj = {}
-        new_obj.name = obj.name
-        new_obj.id = obj.id
-        new_obj.isActual = obj.isActual
-        new_obj.personal = new Set()
-        new_obj.cars = new Set()
-        return new_obj
-    })
+const defaultTask = {
+    name: null,
+    id: null,
+    isActual: null,
+    workers: [],
+    cars: [],
+};
 
-function reducer (state, action) {
-    let i = state.findIndex(obj => obj.id === action.objId)
-    let new_state = [...state]
+const tasksReducer = produce((draft, action) => {
+    // let i = draft.findIndex((obj) => obj.id === action.objId);
     switch (action.type) {
-        case "addCar":
-            action.carId > 0 && new_state[i].cars.add(action.carId)
-            return new_state
-        case "addEmployee":
-            action.userId > 0 && new_state[i].personal.add(action.userId)
-            return new_state
-        case "deleteCar":
-            new_state[i].cars.delete(action.carId)
-            return new_state
-        case "deleteEmployee":
-            new_state[i].personal.delete(action.userId)
-            return new_state
-        case "addObject":
-            new_state = [...state]
-            new_state.push(action.newObject)
-            localStorage.setItem('objects', JSON.stringify(new_state))
-            return new_state
-        case "deleteObject":
-            new_state = [...state]
-            new_state.splice(i, 1)
-            localStorage.setItem('objects', JSON.stringify(new_state))
-            return new_state
-        default:
-            return state;
+        // case "addCar":
+        //     const { carId, name, free } = action;
+        //     draft.action.carId > 0 && new_state[i].cars.add(action.carId);
+        //     return new_state;
+        // case "addEmployee":
+        //     action.userId > 0 && new_state[i].personal.add(action.userId);
+        //     return new_state;
+        // case "deleteCar":
+        //     new_state[i].cars.delete(action.carId);
+        //     return new_state;
+        // case "deleteEmployee":
+        //     new_state[i].personal.delete(action.userId);
+        //     return new_state;
+        case "ADD_TASK":
+            // const { task } = action;
+            // new_state.push(action.newObject);
+            // localStorage.setItem("objects", JSON.stringify(new_state));
+            return draft;
+        // case "DELETE_TASK":
+        //     new_state = [...state];
+        //     new_state.splice(i, 1);
+
+        //     localStorage.setItem("objects", JSON.stringify(new_state));
+        //     return new_state;
     }
-}
+});
+
+// const getInitialState = () => ({
+//     tasks: [defaultTask],
+//     projects: Object.values(initialProjects),
+//     workers: Object.values(initialWorkers),
+//     cars: Object.values(initialCars),
+// });
+
+// const getInitialCars = () => {
+//     const savedCars = localStorage.getItem("cars");
+//     return savedCars ? JSON.parse(savedCars) : initialCars;
+// };
 
 function App() {
-    const [cars, setCars] = useState(cars_db)
-    const [personal, setPersonal] = useState(personal_db)
-    const [adresses, dispatch] = useReducer(reducer, work_objects)
-    const [activeObjectId, setActiveObjectId] = useState(0)
+    // const [cars, setCars] = useState(initialCars);
+    // const [workers, setWorkers] = useState(initialProjects);
+    const [projects, setProjects] = useState(Object.values(initialProjects));
+
+    // const [tasks, dispatch] = useReducer(tasksReducer, defaultTask);
+    // const [activeObjectId, setActiveObjectId] = useState(0);
 
     return (
-        <div className="App" style={{textAlign: "left"}}>
+        <div className="App" style={{ textAlign: "left" }}>
             <div className="panel">
-                <Objects 
-                    setActiveObjectId={setActiveObjectId} 
-                    activeObjectId={activeObjectId}
-                    objects={adresses} 
-                    setObjects={dispatch}
+                <Projects
+                    // setActiveObjectId={setActiveObjectId}
+                    // activeObjectId={activeObjectId}
+                    projects={projects}
+                    // setObjects={setProjects}
                 />
-                <Personal 
-                    personal={personal}
-                    setPersonal={setPersonal}
-                    activeObjectId={activeObjectId}
-                    dispatch={dispatch}
-                />
-                <Cars 
+                {/* <WorkerList
+                    personal={workers}
+                    setPersonal={setWorkers}
+                    // activeObjectId={activeObjectId}
+                    // dispatch={dispatch}
+                /> */}
+                {/* <Cars
                     cars={cars}
                     setCars={setCars}
                     dispatch={dispatch}
-                    activeObjectId={activeObjectId} 
-                />
+                    // activeObjectId={activeObjectId}
+                /> */}
             </div>
-            <div className="result-block">
-                <Result 
-                    objects={adresses} 
-                    cars={cars}
-                    setCars={setCars}
-                    personal={personal}
-                    setPersonal={setPersonal}
-                    dispatch={dispatch}
+            {/* <div className="result-block">
+                <Result
+                    tasks={tasks}
+                    // cars={cars}
+                    // setCars={setCars}
+                    // personal={workers}
+                    // setPersonal={setPersonal}
+                    // dispatch={dispatch}
                 />
-            </div>
+            </div> */}
         </div>
     );
 }
