@@ -1,8 +1,8 @@
-import { DeleteButton } from "components/common/DeleteButton"
 import React from "react"
+import { DeleteButton } from "components/common/DeleteButton"
+import { AddButton } from "components/common/AddButton"
 import { useDispatch, useSelector } from "react-redux"
-import { AddCar } from "./AddCar"
-import { deleteCar } from "./carsSlice"
+import { addCar, deleteCar } from "./carsSlice"
 
 export const CarList = () => {
     const dispatch = useDispatch()
@@ -35,7 +35,7 @@ export const CarList = () => {
                     </div>
                 )
             })}
-            <AddCar />
+            <AddButton onAdd={name => dispatch(addCar(name))} />
         </div>
     )
 }

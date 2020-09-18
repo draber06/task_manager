@@ -1,18 +1,27 @@
-import React, { useState } from "react";
+import React, { useState } from "react"
 
-function AddButton({ onDataNameTextChange, handleAddBtnClick, value }) {
+export const AddButton = ({ onAdd }) => {
+    const [value, setValue] = useState("")
+
+    const onSubmit = e => {
+        e.preventDefault()
+
+        if (!value.trim()) {
+            return
+        }
+
+        onAdd(value)
+        setValue("")
+    }
+
+    const onChange = e => setValue(e.target.value)
+
     return (
         <div>
-            <form action="/" onSubmit={handleAddBtnClick}>
-                <input
-                    onChange={onDataNameTextChange}
-                    value={value}
-                    type="text"
-                />
+            <form action="/" onSubmit={onSubmit}>
+                <input onChange={onChange} value={value} type="text" />
                 <button>Добавить</button>
             </form>
         </div>
-    );
+    )
 }
-
-export default AddButton;

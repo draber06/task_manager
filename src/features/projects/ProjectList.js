@@ -1,15 +1,15 @@
-import { DeleteButton } from "components/common/DeleteButton";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AddProject } from "./AddProject";
+import { DeleteButton } from "components/common/DeleteButton"
+import { AddButton } from "components/common/AddButton"
+import React from "react"
+import { useDispatch, useSelector } from "react-redux"
 // import CloseButton from "../../components/Projects/CloseButton";
 // import AddButton from "../../components/Projects/AddButton";
-import "./ProjectList.css";
-import { deleteProject } from "./projectsSlice";
+import "./ProjectList.css"
+import { addProject, deleteProject } from "./projectsSlice"
 
 export const ProjectList = () => {
-    const projects = useSelector((state) => state.projects);
-    const dispatch = useDispatch();
+    const projects = useSelector(state => state.projects)
+    const dispatch = useDispatch()
     // const handleOnClick = (id) => {
     //     setActiveObjectId(id);
     // };
@@ -40,15 +40,15 @@ export const ProjectList = () => {
 
     return (
         <div className="objects block">
-            {projects.map((project) => {
+            {projects.map(project => {
                 return (
                     <div key={project.id} class="objects__object block-element block__element">
                         <div class="block__element-name block__sub-element">{project.name}</div>
                         <DeleteButton onDelete={() => dispatch(deleteProject(project.id))} />
                     </div>
-                );
+                )
             })}
-            <AddProject />
+            <AddButton onAdd={name => dispatch(addProject(name))} />
         </div>
-    );
-};
+    )
+}
