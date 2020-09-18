@@ -1,9 +1,15 @@
+import { DeleteButton } from "components/common/DeleteButton";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AddProject } from "./AddProject";
 // import CloseButton from "../../components/Projects/CloseButton";
 // import AddButton from "../../components/Projects/AddButton";
 import "./ProjectList.css";
+import { deleteProject } from "./projectsSlice";
 
-export const ProjectList = ({ projects }) => {
+export const ProjectList = () => {
+    const projects = useSelector((state) => state.projects);
+    const dispatch = useDispatch();
     // const handleOnClick = (id) => {
     //     setActiveObjectId(id);
     // };
@@ -31,23 +37,18 @@ export const ProjectList = ({ projects }) => {
     //         </div>
     //     );
     // });
-    console.log(`-----projects = `, JSON.stringify(projects, null, 4));
+
     return (
         <div className="objects block">
             {projects.map((project) => {
                 return (
-                    <div
-                        key={project.id}
-                        class="objects__object block-element block__element"
-                    >
-                        <div class="block__element-name block__sub-element">
-                            {project.name}
-                        </div>
-                        <div class="close-btn"></div>
+                    <div key={project.id} class="objects__object block-element block__element">
+                        <div class="block__element-name block__sub-element">{project.name}</div>
+                        <DeleteButton onDelete={() => dispatch(deleteProject(project.id))} />
                     </div>
                 );
             })}
-            {/* <AddObjectBtn data={objects} setData={setObjects} /> */}
+            <AddProject />
         </div>
     );
 };

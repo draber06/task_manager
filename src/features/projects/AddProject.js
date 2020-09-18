@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+
+import { addProject } from "./projectsSlice";
 // import AddBtn from "../../common/AddButton";
 
-function AddButton({ data, setData }) {
+export const AddProject = () => {
     const [project, setProject] = useState("");
     const dispatch = useDispatch();
 
@@ -13,8 +15,8 @@ function AddButton({ data, setData }) {
             return;
         }
 
-        // dispatch(value);
-        // setData({ type: "addObject", newObject: newItem });
+        dispatch(addProject(project));
+        setProject("");
     };
 
     const onChange = (e) => setProject(e.target.value);
@@ -27,6 +29,4 @@ function AddButton({ data, setData }) {
             </form>
         </div>
     );
-}
-
-export default AddButton;
+};
