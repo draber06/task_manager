@@ -1,13 +1,13 @@
 .objects__object_active {
     background-color: rgb(0, 88, 204);
-    color: rgb(255,255,255)
+    color: rgb(255, 255, 255);
 }
 
-.objects__object_incomplete{
+.objects__object_incomplete {
     background-color: rgb(246, 243, 40);
     color: black;
 }
 
-.objects__object_complete{
+.objects__object_complete {
     background-color: rgb(42, 179, 0);
 }

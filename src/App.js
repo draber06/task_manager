@@ -2,7 +2,7 @@ import React, { useReducer, useState } from "react";
 import { produce } from "immer";
 
 import "./App.css";
-import Projects from "./components/Projects";
+import { ProjectList } from "./features/projects/ProjectList";
 
 import { projects as initialProjects } from "./data/projects";
 import { cars as initialCars } from "./data/cars";
@@ -15,6 +15,12 @@ const defaultTask = {
     workers: [],
     cars: [],
 };
+
+// new_obj.name = obj.name
+//         new_obj.id = obj.id
+//         new_obj.isActual = obj.isActual
+//         new_obj.personal = new Set()
+//         new_obj.cars = new Set()
 
 const tasksReducer = produce((draft, action) => {
     // let i = draft.findIndex((obj) => obj.id === action.objId);
@@ -69,7 +75,7 @@ function App() {
     return (
         <div className="App" style={{ textAlign: "left" }}>
             <div className="panel">
-                <Projects
+                <ProjectList
                     // setActiveObjectId={setActiveObjectId}
                     // activeObjectId={activeObjectId}
                     projects={projects}

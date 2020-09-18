@@ -1,9 +1,9 @@
 import React from "react";
-import CloseButton from "./CloseButton";
-import AddButton from "./AddButton";
-import "./index.css";
+// import CloseButton from "../../components/Projects/CloseButton";
+// import AddButton from "../../components/Projects/AddButton";
+import "./ProjectList.css";
 
-function ProjectList({ projects }) {
+export const ProjectList = ({ projects }) => {
     // const handleOnClick = (id) => {
     //     setActiveObjectId(id);
     // };
@@ -50,6 +50,4 @@ function ProjectList({ projects }) {
             {/* <AddObjectBtn data={objects} setData={setObjects} /> */}
         </div>
     );
-}
-
-export default ProjectList;
+};
