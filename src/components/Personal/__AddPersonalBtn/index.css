@@ -1,0 +1,21 @@
+.add-user-form{
+    border: 1px solid #000;
+    display: inline-block;
+    padding: 1em;
+}
+
+.add-user-form__input{
+    display: block;
+    margin-bottom: 7px;
+    padding: 2px 10px;
+}
+.add-user-form__radio{
+    margin-bottom: 7px;
+}
+
+.add-user-form__submit {
+    padding: 5px 10px;
+    /* border: none;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
+    border-radius: 50px; */
+}
