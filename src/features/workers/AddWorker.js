@@ -5,7 +5,7 @@ import { addWorker } from "./workersSlice"
 
 export const AddWorker = () => {
     const dispatch = useDispatch()
-    const [state, setState] = useState({
+    const [values, setValues] = useState({
         firstName: "",
         lastName: "",
         address: "",
@@ -16,20 +16,16 @@ export const AddWorker = () => {
 
     const handleSubmit = e => {
         e.preventDefault()
-        dispatch(addWorker(state))
-        console.log(`-----state = `, JSON.stringify(state, null, 4))
+        dispatch(addWorker(values))
+        console.log(`-----state = `, JSON.stringify(values, null, 4))
     }
 
-    const handleChange = ({ target: { name, value } }) => {
-        setState(prevState => {
-            return { ...prevState, [name]: value }
-        })
+    const handleInputChange = ({ target: { name, value } }) => {
+        setValues({ ...values, [name]: value })
     }
 
     const handleCheckboxChange = ({ target: { name, checked } }) => {
-        setState(prevState => {
-            return { ...prevState, [name]: checked }
-        })
+        setValues({ ...values, [name]: checked })
     }
 
     return (
@@ -38,22 +34,22 @@ export const AddWorker = () => {
                 <input
                     className="add-user-form__input"
                     name="lastName"
-                    onChange={handleChange}
-                    value={state.lastName}
+                    onChange={handleInputChange}
+                    value={values.lastName}
                     placeholder="Фамилия"
                 />
                 <input
                     className="add-user-form__input"
                     name="firstName"
-                    onChange={handleChange}
-                    value={state.firstName}
+                    onChange={handleInputChange}
+                    value={values.firstName}
                     placeholder="Имя"
                 />
                 <input
                     className="add-user-form__input"
                     name="address"
-                    onChange={handleChange}
-                    value={state.address}
+                    onChange={handleInputChange}
+                    value={values.address}
                     placeholder="Адрес"
                 />
                 <div className="add-user-form__radio">
@@ -63,8 +59,8 @@ export const AddWorker = () => {
                             name="region"
                             value="N"
                             id="region2"
-                            checked={state.region === "N"}
-                            onChange={handleChange}
+                            checked={values.region === "N"}
+                            onChange={handleInputChange}
                         />
                         <label htmlFor="region2">Север</label>
                     </div>
@@ -74,8 +70,8 @@ export const AddWorker = () => {
                             name="region"
                             value="S"
                             id="region1"
-                            checked={state.region === "S"}
-                            onChange={handleChange}
+                            checked={values.region === "S"}
+                            onChange={handleInputChange}
                         />
                         <label htmlFor="region1">Юг</label>
                     </div>
@@ -87,8 +83,8 @@ export const AddWorker = () => {
                             name="group"
                             value="M"
                             id="group1"
-                            onChange={handleChange}
-                            checked={state.group === "M"}
+                            onChange={handleInputChange}
+                            checked={values.group === "M"}
                         />
                         <label htmlFor="group1">Исаков</label>
                     </div>
@@ -98,8 +94,8 @@ export const AddWorker = () => {
                             name="group"
                             value="K"
                             id="group2"
-                            onChange={handleChange}
-                            checked={state.group === "K"}
+                            onChange={handleInputChange}
+                            checked={values.group === "K"}
                         />
                         <label htmlFor="group2">Игнатьев</label>
                     </div>
@@ -109,7 +105,7 @@ export const AddWorker = () => {
                         type="checkbox"
                         id="isGeodesist"
                         name="isGeodesist"
-                        checked={state.isGeodesist}
+                        checked={values.isGeodesist}
                         onChange={handleCheckboxChange}
                     />
                     <label htmlFor="isGeodesist">Геодезист</label>
