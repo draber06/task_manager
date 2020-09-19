@@ -1,7 +1,7 @@
 import React from "react"
 import { useDispatch } from "react-redux"
 
-import { DeleteButton } from "components/common/DeleteButton"
+import { DeleteButton } from "components/DeleteButton"
 import { deleteWorker } from "./workersSlice"
 
 export const WorkerListItem = ({ worker }) => {

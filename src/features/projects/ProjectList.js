@@ -1,6 +1,6 @@
 import React from "react"
-import { DeleteButton } from "components/common/DeleteButton"
-import { AddButton } from "components/common/AddButton"
+import { DeleteButton } from "components/DeleteButton"
+import { AddButton } from "components/AddButton"
 import { useDispatch, useSelector } from "react-redux"
 // import CloseButton from "../../components/Projects/CloseButton";
 // import AddButton from "../../components/Projects/AddButton";

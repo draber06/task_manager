@@ -1,7 +1,8 @@
 import React from "react"
-import { DeleteButton } from "components/common/DeleteButton"
-import { AddButton } from "components/common/AddButton"
 import { useDispatch, useSelector } from "react-redux"
+
+import { DeleteButton } from "components/DeleteButton"
+import { AddButton } from "components/AddButton"
 import { addCar, deleteCar } from "./carsSlice"
 
 export const CarList = () => {

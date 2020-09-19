@@ -1,11 +1,11 @@
 import React, { useState } from "react"
 import { useDispatch } from "react-redux"
 
-import { RadioGroup } from "components/common/RadioGroup"
-import { TextField } from "components/common/TextField"
-import "./AddWorker.css"
+import { RadioButtonsGroup } from "components/RadioButtonsGroup"
+import { TextField } from "components/TextField"
 import { addWorker } from "./workersSlice"
-import { Checkbox } from "components/common/Checkbox"
+import { Checkbox } from "components/Checkbox"
+import "./AddWorker.css"
 
 const defaultValues = {
     firstName: "",
@@ -95,7 +95,7 @@ export const AddWorker = () => {
 
                     if (field.type === "radio") {
                         return (
-                            <RadioGroup
+                            <RadioButtonsGroup
                                 key={field.name}
                                 field={field}
                                 onChange={handleInputChange}
