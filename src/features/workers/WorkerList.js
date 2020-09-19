@@ -4,21 +4,47 @@ import { WorkerListItem } from "./WorkerListItem"
 import { useDispatch, useSelector } from "react-redux"
 import { AddWorker } from "./AddWorker"
 
-// function sorting(сoef, setCoef, property, data, setData) {
-//     const newData = [...data]
-//     const sortingFn = (a, b) => (a[property] > b[property] ? 1 * сoef : -1 * сoef)
-//     setData(newData.sort(sortingFn))
-//     setCoef(-сoef)
-// }
+function descendingComparator(a, b, orderBy) {
+    if (b[orderBy] < a[orderBy]) {
+        return -1
+    }
+    if (b[orderBy] > a[orderBy]) {
+        return 1
+    }
+    return 0
+}
+
+function getComparator(order, orderBy) {
+    return order === "desc"
+        ? (a, b) => descendingComparator(a, b, orderBy)
+        : (a, b) => -descendingComparator(a, b, orderBy)
+}
+
+function stableSort(array, comparator) {
+    const stabilizedThis = array.map((el, index) => [el, index])
+    stabilizedThis.sort((a, b) => {
+        const order = comparator(a[0], b[0])
+        if (order !== 0) return order
+        return a[1] - b[1]
+    })
+    return stabilizedThis.map(el => el[0])
+}
+
+const headers = [
+    { id: "lastName", label: "Имя", className: "personal__name" },
+    { id: "group", label: "Г", className: "personal__group" },
+    { id: "region", label: "Р", className: "personal__region" },
+    { id: "address", label: "Адрес", className: "personal__adress" },
+]
 
 export const WorkerList = () => {
     // useDispatch()
     const workers = useSelector(state => state.workers)
-    // const [nameSortDirection, setNameSortDirection] = useState(1)
-    // const [groupSortDirection, setGroupSortDirection] = useState(1)
-    // const [regionSortDirection, setRegionSortDirection] = useState(1)
-    // const [adressSortDirection, setAdressSortDirection] = useState(1)
+
     const [formVisibility, toggleFormVisibility] = useState(false)
+
+    const [order, setOrder] = useState("asc")
+    const [orderBy, setOrderBy] = useState("lastName")
 
     // const onEmployeeClick = (id, evt) => {
     //     if (activeObjectId < 1) return
@@ -30,31 +56,32 @@ export const WorkerList = () => {
     //     setPersonal(personal_copy)
     // }
 
-    // const onNameClick = () => {
-    //     sorting(nameSortDirection, setNameSortDirection, "last", personal, setPersonal)
-    // }
-
-    // const onGroupClick = () => {
-    //     sorting(groupSortDirection, setGroupSortDirection, "group", personal, setPersonal)
-    // }
-
-    // const onRegionClick = () => {
-    //     sorting(regionSortDirection, setRegionSortDirection, "region", personal, setPersonal)
-    // }
-
-    // const onAdressClick = () => {
-    //     sorting(adressSortDirection, setAdressSortDirection, "adress", personal, setPersonal)
-    // }
+    const handleRequestSort = property => event => {
+        const isAsc = orderBy === property && order === "asc"
+        setOrder(isAsc ? "desc" : "asc")
+        setOrderBy(property)
+    }
 
     return (
         <div className="personal block" style={{ textAlign: "left" }}>
             <div className="personal-header personal__employee block__element">
-                <div className="personal__name block__sub-element">Имя</div>
-                <div className="personal__group block__sub-element">Г</div>
-                <div className="personal__region block__sub-element">Р</div>
-                <div className="personal__adress block__sub-element">Адрес</div>
+                {headers.map(({ className, label, id }) => {
+                    return (
+                        <div
+                            key={id}
+                            className={`${className} block__sub-element ${
+                                orderBy === id
+                                    ? `sorted ${order === "asc" ? "ascending" : "descending"}`
+                                    : ""
+                            }`}
+                            onClick={handleRequestSort(id)}
+                        >
+                            {label}
+                        </div>
+                    )
+                })}
             </div>
-            {workers.map(worker => (
+            {stableSort(workers, getComparator(order, orderBy)).map(worker => (
                 <WorkerListItem key={worker.id} worker={worker} />
             ))}
             <button onClick={() => toggleFormVisibility(!formVisibility)}>
