@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import "./workers.css"
+import "./WorkerList.css"
 import { WorkerListItem } from "./WorkerListItem"
 import { useDispatch, useSelector } from "react-redux"
 import { AddWorker } from "./AddWorker"

@@ -4,7 +4,7 @@ import { AddButton } from "components/common/AddButton"
 import { useDispatch, useSelector } from "react-redux"
 // import CloseButton from "../../components/Projects/CloseButton";
 // import AddButton from "../../components/Projects/AddButton";
-import "./projects.css"
+import "./ProjectList.css"
 import { addProject, deleteProject } from "./projectsSlice"
 
 export const ProjectList = () => {

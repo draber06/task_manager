@@ -1,115 +1,123 @@
 import React, { useState } from "react"
 import { useDispatch } from "react-redux"
-import "./addWorker.css"
+
+import { RadioGroup } from "components/common/RadioGroup"
+import { TextField } from "components/common/TextField"
+import "./AddWorker.css"
 import { addWorker } from "./workersSlice"
+import { Checkbox } from "components/common/Checkbox"
+
+const defaultValues = {
+    firstName: "",
+    lastName: "",
+    address: "",
+    isGeodesist: false,
+    region: "N",
+    group: "M",
+}
+
+const schema = [
+    {
+        type: "text",
+        name: "lastName",
+        placeholder: "Фамилия",
+        required: true,
+    },
+    {
+        type: "text",
+        name: "firstName",
+        placeholder: "Имя",
+        required: true,
+    },
+    {
+        type: "text",
+        name: "address",
+        placeholder: "Адрес",
+        required: true,
+    },
+    {
+        type: "radio",
+        name: "region",
+        label: "Регион",
+        values: [
+            { value: "N", label: "Север" },
+            { value: "S", label: "Юг" },
+        ],
+    },
+    {
+        type: "radio",
+        name: "group",
+        label: "Группа",
+        values: [
+            { value: "M", label: "Исаков" },
+            { value: "K", label: "Игнатьев" },
+        ],
+    },
+    {
+        type: "checkbox",
+        name: "isGeodesist",
+        label: "Геодезист",
+    },
+]
 
 export const AddWorker = () => {
     const dispatch = useDispatch()
-    const [values, setValues] = useState({
-        firstName: "",
-        lastName: "",
-        address: "",
-        isGeodesist: false,
-        region: "N",
-        group: "M",
-    })
+    const [values, setValues] = useState(defaultValues)
 
     const handleSubmit = e => {
         e.preventDefault()
         dispatch(addWorker(values))
-        console.log(`-----state = `, JSON.stringify(values, null, 4))
+        setValues(defaultValues)
     }
 
     const handleInputChange = ({ target: { name, value } }) => {
-        setValues({ ...values, [name]: value })
+        setValues(prevState => ({ ...prevState, [name]: value }))
     }
 
     const handleCheckboxChange = ({ target: { name, checked } }) => {
-        setValues({ ...values, [name]: checked })
+        setValues(prevState => ({ ...prevState, [name]: checked }))
     }
 
     return (
         <div>
             <form action="/" onSubmit={handleSubmit} className="add-user-form">
-                <input
-                    className="add-user-form__input"
-                    name="lastName"
-                    onChange={handleInputChange}
-                    value={values.lastName}
-                    placeholder="Фамилия"
-                />
-                <input
-                    className="add-user-form__input"
-                    name="firstName"
-                    onChange={handleInputChange}
-                    value={values.firstName}
-                    placeholder="Имя"
-                />
-                <input
-                    className="add-user-form__input"
-                    name="address"
-                    onChange={handleInputChange}
-                    value={values.address}
-                    placeholder="Адрес"
-                />
-                <div className="add-user-form__radio">
-                    <div>
-                        <input
-                            type="radio"
-                            name="region"
-                            value="N"
-                            id="region2"
-                            checked={values.region === "N"}
-                            onChange={handleInputChange}
-                        />
-                        <label htmlFor="region2">Север</label>
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            name="region"
-                            value="S"
-                            id="region1"
-                            checked={values.region === "S"}
-                            onChange={handleInputChange}
-                        />
-                        <label htmlFor="region1">Юг</label>
-                    </div>
-                </div>
-                <div className="add-user-form__radio">
-                    <div>
-                        <input
-                            type="radio"
-                            name="group"
-                            value="M"
-                            id="group1"
-                            onChange={handleInputChange}
-                            checked={values.group === "M"}
-                        />
-                        <label htmlFor="group1">Исаков</label>
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            name="group"
-                            value="K"
-                            id="group2"
-                            onChange={handleInputChange}
-                            checked={values.group === "K"}
-                        />
-                        <label htmlFor="group2">Игнатьев</label>
-                    </div>
-                </div>
-                <div className="add-user-form__checkbox">
-                    <input
-                        type="checkbox"
-                        id="isGeodesist"
-                        name="isGeodesist"
-                        checked={values.isGeodesist}
-                        onChange={handleCheckboxChange}
-                    />
-                    <label htmlFor="isGeodesist">Геодезист</label>
-                </div>
+                {schema.map(field => {
+                    if (field.type === "text") {
+                        return (
+                            <TextField
+                                key={field.name}
+                                field={field}
+                                value={values[field.name]}
+                                onChange={handleInputChange}
+                            />
+                        )
+                    }
+
+                    if (field.type === "radio") {
+                        return (
+                            <RadioGroup
+                                key={field.name}
+                                field={field}
+                                onChange={handleInputChange}
+                                checkedValue={values[field.name]}
+                            />
+                        )
+                    }
+
+                    if (field.type === "checkbox") {
+                        return (
+                            <Checkbox
+                                key={field.name}
+                                field={field}
+                                onChange={handleCheckboxChange}
+                                checked={values[field.name]}
+                            />
+                        )
+                    }
+
+                    return null
+                })}
+
                 <button className="add-user-form__submit">Добавить</button>
             </form>
         </div>
