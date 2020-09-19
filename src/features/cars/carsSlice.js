@@ -18,11 +18,7 @@ const carsSlice = createSlice({
             },
         },
         deleteCar: (state, action) => {
-            const index = state.findIndex(car => car.id === action.payload)
-
-            if (index !== -1) {
-                state.splice(index, 1)
-            }
+            return state.filter(car => car.id !== action.payload)
         },
     },
 })

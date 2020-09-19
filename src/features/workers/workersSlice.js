@@ -25,11 +25,7 @@ const workersSlice = createSlice({
             },
         },
         deleteWorker: (state, action) => {
-            const index = state.findIndex(worker => worker.id === action.payload)
-
-            if (index !== -1) {
-                state.splice(index, 1)
-            }
+            return state.filter(worker => worker.id !== action.payload)
         },
     },
 })

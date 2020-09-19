@@ -1,6 +1,6 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { createSlice, nanoid } from "@reduxjs/toolkit"
 
-import { projects } from "data/projects";
+import { projects } from "data/projects"
 
 const projectsSlice = createSlice({
     name: "projects",
@@ -8,23 +8,19 @@ const projectsSlice = createSlice({
     reducers: {
         addProject: {
             reducer: (state, action) => {
-                state.push(action.payload);
+                state.push(action.payload)
             },
-            prepare: (name) => {
-                const id = nanoid();
-                return { payload: { id, name } };
+            prepare: name => {
+                const id = nanoid()
+                return { payload: { id, name } }
             },
         },
         deleteProject: (state, action) => {
-            const index = state.findIndex((project) => project.id === action.payload);
-
-            if (index !== -1) {
-                state.splice(index, 1);
-            }
+            return state.filter(project => project.id !== action.payload)
         },
     },
-});
+})
 
-export const { addProject, deleteProject } = projectsSlice.actions;
+export const { addProject, deleteProject } = projectsSlice.actions
 
-export default projectsSlice.reducer;
+export default projectsSlice.reducer
