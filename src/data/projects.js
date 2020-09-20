@@ -15,6 +15,6 @@ const projects = [
         id: 4,
         name: "Гарькавого",
     },
-];
+]
 
-export { projects };
+export { projects }

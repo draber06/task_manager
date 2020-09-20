@@ -1,41 +1,21 @@
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
 
-import { DeleteButton } from "components/DeleteButton"
 import { AddButton } from "components/AddButton"
-import { addCar, deleteCar } from "./carsSlice"
+import CarListItem from "./CarListItem"
+
+import { notAssignedCarIdsSelector } from "features/tasks/tasksSlice"
+import { addCar } from "./carsSlice"
 
 export const CarList = () => {
     const dispatch = useDispatch()
-    const cars = useSelector(state => state.cars)
-    // const handleCarClick = (id) => {
-    //     if(activeObjectId < 1) return
-    //     const cars_copy = cars.map(car => {
-    //         if(car.id === id)
-    //             car.isFree = false
-    //         return car
-    //     })
-    //     setCars(cars_copy)
-
-    //     dispatch({type: "addCar", carId: id, objId: activeObjectId})
-    // }
+    const carIds = useSelector(notAssignedCarIdsSelector)
 
     return (
         <div className="cars block">
-            {cars.map(car => {
-                return (
-                    <div
-                        className="cars__car block__element"
-                        key={car.id}
-                        // onClick={handleCarClick.bind(null, car.id)}
-                    >
-                        <div className="cars__car-name block__element-name block__sub-element">
-                            {car.name}
-                        </div>
-                        <DeleteButton onDelete={() => dispatch(deleteCar(car.id))} />
-                    </div>
-                )
-            })}
+            {carIds.map(id => (
+                <CarListItem key={id} id={id} />
+            ))}
             <AddButton onAdd={name => dispatch(addCar(name))} />
         </div>
     )

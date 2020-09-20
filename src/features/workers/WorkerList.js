@@ -1,8 +1,11 @@
 import React, { useState } from "react"
-import "./WorkerList.css"
-import { WorkerListItem } from "./WorkerListItem"
 import { useDispatch, useSelector } from "react-redux"
+
+import { WorkerListItem } from "./WorkerListItem"
 import { AddWorker } from "./AddWorker"
+import "./WorkerList.css"
+
+import { notAssignedWorkerSelector } from "features/tasks/tasksSlice"
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -39,22 +42,12 @@ const headers = [
 
 export const WorkerList = () => {
     // useDispatch()
-    const workers = useSelector(state => state.workers)
+    const workers = useSelector(notAssignedWorkerSelector)
 
     const [formVisibility, toggleFormVisibility] = useState(false)
 
     const [order, setOrder] = useState("asc")
     const [orderBy, setOrderBy] = useState("lastName")
-
-    // const onEmployeeClick = (id, evt) => {
-    //     if (activeObjectId < 1) return
-    //     const personal_copy = personal.map(person => {
-    //         if (person.id === id) person.isFree = false
-    //         return person
-    //     })
-    //     dispatch({ type: "addEmployee", userId: id, objId: activeObjectId })
-    //     setPersonal(personal_copy)
-    // }
 
     const handleRequestSort = property => event => {
         const isAsc = orderBy === property && order === "asc"
@@ -81,8 +74,8 @@ export const WorkerList = () => {
                     )
                 })}
             </div>
-            {stableSort(workers, getComparator(order, orderBy)).map(worker => (
-                <WorkerListItem key={worker.id} worker={worker} />
+            {stableSort(Object.values(workers), getComparator(order, orderBy)).map(worker => (
+                <WorkerListItem key={worker.id} id={String(worker.id)} />
             ))}
             <button onClick={() => toggleFormVisibility(!formVisibility)}>
                 {formVisibility ? "Скрыть форму" : "Добавить сотрудника"}
