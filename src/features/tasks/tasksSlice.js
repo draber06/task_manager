@@ -15,16 +15,6 @@ const tasksSlice = createSlice({
         setActiveProject(state, action) {
             state.activeProjectId = action.payload
         },
-        createTask(state, action) {
-            const projectId = action.payload
-            const newTask = {
-                projectId,
-                workerIds: [],
-                carIds: [],
-            }
-            state.entities.byId[projectId] = newTask
-            state.entities.allIds.push(projectId)
-        },
         assignCar(state, action) {
             const { activeProjectId } = state
             if (state.entities.byId[activeProjectId]) {
@@ -38,10 +28,13 @@ const tasksSlice = createSlice({
             }
         },
         unassignCar(state, action) {
-            const { cars } = state.entities.byId[state.activeTask.id]
-            const index = cars.findIndex(id => id === action.payload)
-            if (index !== -1) {
-                cars.splice(index, 1)
+            const { activeProjectId } = state
+            const { carIds } = state.entities.byId[activeProjectId]
+
+            const existingCarIdIndex = carIds.findIndex(id => id === action.payload)
+
+            if (existingCarIdIndex !== -1) {
+                carIds.splice(existingCarIdIndex, 1)
             }
         },
         assignWorker(state, action) {
@@ -54,6 +47,16 @@ const tasksSlice = createSlice({
                     workerIds: [action.payload],
                     carIds: [],
                 }
+            }
+        },
+        unassignWorker(state, action) {
+            const { activeProjectId } = state
+            const { workerIds } = state.entities.byId[activeProjectId]
+
+            const existingWorkerIdIndex = workerIds.findIndex(id => id === action.payload)
+
+            if (existingWorkerIdIndex !== -1) {
+                workerIds.splice(existingWorkerIdIndex, 1)
             }
         },
     },
@@ -72,7 +75,7 @@ const notAssignedCarIdsSelector = createSelector(taskSelector, carIdsSelector, (
     return carIds.filter(id => !assignedCarIds.includes(id))
 })
 
-const notAssignedWorkerSelector = createSelector(
+const notAssignedWorkersSelector = createSelector(
     taskSelector,
     workersSelector,
     (tasks, workers) => {
@@ -87,14 +90,8 @@ const notAssignedWorkerSelector = createSelector(
     }
 )
 
-export { activeProjectIdSelector, notAssignedCarIdsSelector, notAssignedWorkerSelector }
+export { activeProjectIdSelector, notAssignedCarIdsSelector, notAssignedWorkersSelector }
 
-export const {
-    createTask,
-    setActiveProject,
-    assignCar,
-    unassignCar,
-    assignWorker,
-} = tasksSlice.actions
+export const { setActiveProject, assignCar, unassignCar, assignWorker } = tasksSlice.actions
 
 export default tasksSlice.reducer

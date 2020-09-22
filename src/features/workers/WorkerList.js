@@ -1,11 +1,11 @@
 import React, { useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 
 import { WorkerListItem } from "./WorkerListItem"
 import { AddWorker } from "./AddWorker"
 import "./WorkerList.css"
 
-import { notAssignedWorkerSelector } from "features/tasks/tasksSlice"
+import { notAssignedWorkersSelector } from "features/tasks/tasksSlice"
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -41,8 +41,7 @@ const headers = [
 ]
 
 export const WorkerList = () => {
-    // useDispatch()
-    const workers = useSelector(notAssignedWorkerSelector)
+    const workers = useSelector(notAssignedWorkersSelector)
 
     const [formVisibility, toggleFormVisibility] = useState(false)
 
