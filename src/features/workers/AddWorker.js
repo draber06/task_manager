@@ -70,12 +70,8 @@ export const AddWorker = () => {
         setValues(defaultValues)
     }
 
-    const handleInputChange = ({ target: { name, value } }) => {
+    const handleChange = (name, value) => {
         setValues(prevState => ({ ...prevState, [name]: value }))
-    }
-
-    const handleCheckboxChange = ({ target: { name, checked } }) => {
-        setValues(prevState => ({ ...prevState, [name]: checked }))
     }
 
     return (
@@ -88,7 +84,8 @@ export const AddWorker = () => {
                                 key={field.name}
                                 field={field}
                                 value={values[field.name]}
-                                onChange={handleInputChange}
+                                onChange={handleChange}
+                                required
                             />
                         )
                     }
@@ -98,7 +95,7 @@ export const AddWorker = () => {
                             <RadioButtonsGroup
                                 key={field.name}
                                 field={field}
-                                onChange={handleInputChange}
+                                onChange={handleChange}
                                 checkedValue={values[field.name]}
                             />
                         )
@@ -109,7 +106,7 @@ export const AddWorker = () => {
                             <Checkbox
                                 key={field.name}
                                 field={field}
-                                onChange={handleCheckboxChange}
+                                onChange={handleChange}
                                 checked={values[field.name]}
                             />
                         )

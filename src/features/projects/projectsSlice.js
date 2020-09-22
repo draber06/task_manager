@@ -26,20 +26,18 @@ const projectsSlice = createSlice({
         },
         deleteProject(state, action) {
             delete state.entities[action.payload]
-            const existingProjectIndex = state.ids.findIndex(id => id === action.payload)
-            if (existingProjectIndex !== -1) {
-                state.ids.splice(existingProjectIndex, 1)
-            }
+            state.ids = Object.keys(state.entities)
         },
     },
 })
 
 const selectProjects = state => state.projects.entities
+
 const selectProjectIds = state => state.projects.ids
 
 const selectProjectById = id => createSelector(selectProjects, projects => projects[id])
 
-export { selectProjectById, selectProjectIds }
+export { selectProjectById, selectProjects, selectProjectIds }
 
 export const { addProject, deleteProject } = projectsSlice.actions
 

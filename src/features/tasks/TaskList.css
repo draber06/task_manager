@@ -1,18 +1,18 @@
-.result-block{
+.result-block {
     display: flex;
     justify-content: center;
 }
 
-.result__object{
+.result__object {
     margin: 10px 0;
-    border-top: 1px solid #000;;
+    border-top: 1px solid #000;
 }
 
-.result__object-name{
+.result__object-name {
     font-weight: bold;
 }
 
-.result__object-cars{
+.result__object-cars {
     font-style: italic;
     display: flex;
 }

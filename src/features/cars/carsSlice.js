@@ -28,10 +28,7 @@ const carsSlice = createSlice({
         },
         deleteCar(state, action) {
             delete state.entities[action.payload]
-            const existingIdIndex = state.ids.findIndex(id => id === action.payload)
-            if (existingIdIndex !== -1) {
-                state.ids.splice(existingIdIndex, 1)
-            }
+            state.ids = Object.keys(state.entities)
         },
     },
 })

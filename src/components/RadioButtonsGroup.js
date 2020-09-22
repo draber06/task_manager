@@ -3,6 +3,8 @@ import React from "react"
 export const RadioButtonsGroup = ({ field, onChange, checkedValue }) => {
     const { label, name, values } = field
 
+    const handleChange = ({ target: { name, value } }) => onChange(name, value)
+
     return (
         <div className="add-user-form__radio">
             <p>{label}</p>
@@ -16,7 +18,7 @@ export const RadioButtonsGroup = ({ field, onChange, checkedValue }) => {
                             value={value}
                             id={id}
                             checked={checkedValue === value}
-                            onChange={onChange}
+                            onChange={handleChange}
                         />
                         <label htmlFor={id}>{label}</label>
                     </div>
