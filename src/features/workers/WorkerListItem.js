@@ -3,14 +3,13 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { DeleteButton } from "components/DeleteButton"
 
-import { deleteWorker, workerByIdSelector } from "./workersSlice"
-import { activeProjectIdSelector, assignWorker } from "features/tasks/tasksSlice"
+import { deleteWorker, selectWorkerById } from "./workersSlice"
+import { selectActiveProjectId, assignWorker } from "features/tasks/tasksSlice"
 
 export const WorkerListItem = ({ id }) => {
     const dispatch = useDispatch()
-
-    const worker = useSelector(workerByIdSelector(id))
-    const activeProjectId = useSelector(activeProjectIdSelector)
+    const worker = useSelector(selectWorkerById(id))
+    const activeProjectId = useSelector(selectActiveProjectId)
 
     const { group, isGeodesist, firstName, lastName, region, address } = worker
 

@@ -5,7 +5,7 @@ import { WorkerListItem } from "./WorkerListItem"
 import { AddWorker } from "./AddWorker"
 import "./WorkerList.css"
 
-import { notAssignedWorkersSelector } from "features/tasks/tasksSlice"
+import { selectFreeWorkers } from "features/tasks/tasksSlice"
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -41,7 +41,7 @@ const headers = [
 ]
 
 export const WorkerList = () => {
-    const workers = useSelector(notAssignedWorkersSelector)
+    const workers = useSelector(selectFreeWorkers)
 
     const [formVisibility, toggleFormVisibility] = useState(false)
 

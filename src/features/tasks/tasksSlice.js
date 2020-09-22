@@ -1,14 +1,12 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit"
-import { carIdsSelector } from "features/cars/carsSlice"
-import { workersSelector } from "features/workers/workersSlice"
+import { selectCarIds } from "features/cars/carsSlice"
+import { selectWorkers } from "features/workers/workersSlice"
 
 const tasksSlice = createSlice({
     name: "tasks",
     initialState: {
-        entities: {
-            byId: {},
-            allIds: [],
-        },
+        entities: {},
+        ids: [],
         activeProjectId: null,
     },
     reducers: {
@@ -17,10 +15,10 @@ const tasksSlice = createSlice({
         },
         assignCar(state, action) {
             const { activeProjectId } = state
-            if (state.entities.byId[activeProjectId]) {
-                state.entities.byId[activeProjectId].carIds.push(action.payload)
+            if (state.entities[activeProjectId]) {
+                state.entities[activeProjectId].carIds.push(action.payload)
             } else {
-                state.entities.byId[activeProjectId] = {
+                state.entities[activeProjectId] = {
                     projectId: activeProjectId,
                     workerIds: [],
                     carIds: [action.payload],
@@ -29,7 +27,7 @@ const tasksSlice = createSlice({
         },
         unassignCar(state, action) {
             const { activeProjectId } = state
-            const { carIds } = state.entities.byId[activeProjectId]
+            const { carIds } = state.entities[activeProjectId]
 
             const existingCarIdIndex = carIds.findIndex(id => id === action.payload)
 
@@ -39,10 +37,10 @@ const tasksSlice = createSlice({
         },
         assignWorker(state, action) {
             const { activeProjectId } = state
-            if (state.entities.byId[activeProjectId]) {
-                state.entities.byId[activeProjectId].workerIds.push(action.payload)
+            if (state.entities[activeProjectId]) {
+                state.entities[activeProjectId].workerIds.push(action.payload)
             } else {
-                state.entities.byId[activeProjectId] = {
+                state.entities[activeProjectId] = {
                     projectId: activeProjectId,
                     workerIds: [action.payload],
                     carIds: [],
@@ -51,7 +49,7 @@ const tasksSlice = createSlice({
         },
         unassignWorker(state, action) {
             const { activeProjectId } = state
-            const { workerIds } = state.entities.byId[activeProjectId]
+            const { workerIds } = state.entities[activeProjectId]
 
             const existingWorkerIdIndex = workerIds.findIndex(id => id === action.payload)
 
@@ -62,11 +60,11 @@ const tasksSlice = createSlice({
     },
 })
 
-const activeProjectIdSelector = state => state.tasks.activeProjectId
+const selectActiveProjectId = state => state.tasks.activeProjectId
 
-const taskSelector = state => state.tasks.entities.byId
+const selectTasks = state => state.tasks.entities
 
-const notAssignedCarIdsSelector = createSelector(taskSelector, carIdsSelector, (tasks, carIds) => {
+const selectFreeCarIds = createSelector(selectTasks, selectCarIds, (tasks, carIds) => {
     const assignedCarIds = Object.values(tasks).reduce(
         (carIds, task) => carIds.concat(task.carIds),
         []
@@ -75,22 +73,18 @@ const notAssignedCarIdsSelector = createSelector(taskSelector, carIdsSelector, (
     return carIds.filter(id => !assignedCarIds.includes(id))
 })
 
-const notAssignedWorkersSelector = createSelector(
-    taskSelector,
-    workersSelector,
-    (tasks, workers) => {
-        const assignedWorkerIds = Object.values(tasks).reduce(
-            (workerIds, task) => workerIds.concat(task.workerIds),
-            []
-        )
+const selectFreeWorkers = createSelector(selectTasks, selectWorkers, (tasks, workers) => {
+    const assignedWorkerIds = Object.values(tasks).reduce(
+        (workerIds, task) => workerIds.concat(task.workerIds),
+        []
+    )
 
-        return Object.values(workers).filter(({ id }) => {
-            return !assignedWorkerIds.includes(String(id))
-        })
-    }
-)
+    return Object.values(workers).filter(({ id }) => {
+        return !assignedWorkerIds.includes(String(id))
+    })
+})
 
-export { activeProjectIdSelector, notAssignedCarIdsSelector, notAssignedWorkersSelector }
+export { selectActiveProjectId, selectFreeCarIds, selectFreeWorkers }
 
 export const { setActiveProject, assignCar, unassignCar, assignWorker } = tasksSlice.actions
 

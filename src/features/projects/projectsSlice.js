@@ -9,17 +9,15 @@ const projectIds = Object.keys(normalizedProjects)
 const projectsSlice = createSlice({
     name: "projects",
     initialState: {
-        entities: {
-            byId: normalizedProjects,
-            allIds: projectIds,
-        },
+        entities: normalizedProjects,
+        ids: projectIds,
     },
     reducers: {
         addProject: {
             reducer(state, action) {
                 const { id } = action.payload
-                state.entities.byId[id] = action.payload
-                state.entities.allIds.push(id)
+                state.entities[id] = action.payload
+                state.ids.push(id)
             },
             prepare(name) {
                 const id = nanoid()
@@ -27,20 +25,21 @@ const projectsSlice = createSlice({
             },
         },
         deleteProject(state, action) {
-            delete state.entities.byId[action.payload]
-            const index = state.entities.allIds.findIndex(id => id === action.payload)
-            if (index !== -1) {
-                state.entities.allIds.splice(index, 1)
+            delete state.entities[action.payload]
+            const existingProjectIndex = state.ids.findIndex(id => id === action.payload)
+            if (existingProjectIndex !== -1) {
+                state.ids.splice(existingProjectIndex, 1)
             }
         },
     },
 })
 
-const projectsSelector = state => state.projects.entities.byId
+const selectProjects = state => state.projects.entities
+const selectProjectIds = state => state.projects.ids
 
-const projectByIdSelector = id => createSelector(projectsSelector, projects => projects[id])
+const selectProjectById = id => createSelector(selectProjects, projects => projects[id])
 
-export { projectByIdSelector }
+export { selectProjectById, selectProjectIds }
 
 export const { addProject, deleteProject } = projectsSlice.actions
 

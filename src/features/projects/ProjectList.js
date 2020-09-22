@@ -5,12 +5,11 @@ import { AddButton } from "components/AddButton"
 import { ProjectListItem } from "./ProjectListItem"
 import "./ProjectList.css"
 
-import { addProject } from "./projectsSlice"
+import { addProject, selectProjectIds } from "./projectsSlice"
 
 export const ProjectList = () => {
     const dispatch = useDispatch()
-
-    const projectIds = useSelector(state => state.projects.entities.allIds)
+    const projectIds = useSelector(selectProjectIds)
 
     return (
         <div className="objects block">

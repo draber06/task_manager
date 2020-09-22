@@ -4,13 +4,12 @@ import { useDispatch, useSelector } from "react-redux"
 import { DeleteButton } from "components/DeleteButton"
 
 import { setActiveProject } from "features/tasks/tasksSlice"
-import { deleteProject, projectByIdSelector } from "./projectsSlice"
+import { deleteProject, selectProjectById } from "./projectsSlice"
 
 export const ProjectListItem = ({ id }) => {
-    const { name } = useSelector(projectByIdSelector(id))
-    const activeProjectId = useSelector(state => state.tasks.activeProjectId)
-
     const dispatch = useDispatch()
+    const { name } = useSelector(selectProjectById(id))
+    const activeProjectId = useSelector(state => state.tasks.activeProjectId)
 
     return (
         <div

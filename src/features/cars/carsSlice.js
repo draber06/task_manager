@@ -9,17 +9,15 @@ const carIds = Object.keys(normalizedCars)
 const carsSlice = createSlice({
     name: "cars",
     initialState: {
-        entities: {
-            byId: normalizedCars,
-            allIds: carIds,
-        },
+        entities: normalizedCars,
+        ids: carIds,
     },
     reducers: {
         addCar: {
             reducer: (state, action) => {
                 const { id } = action.payload
-                state.entities.byId[id] = action.payload
-                state.entities.allIds.push(id)
+                state.entities[id] = action.payload
+                state.ids.push(id)
             },
             prepare: name => {
                 const id = nanoid()
@@ -29,22 +27,22 @@ const carsSlice = createSlice({
             },
         },
         deleteCar(state, action) {
-            delete state.entities.byId[action.payload]
-            const index = state.entities.allIds.findIndex(id => id === action.payload)
-            if (index !== -1) {
-                state.entities.allIds.splice(index, 1)
+            delete state.entities[action.payload]
+            const existingIdIndex = state.ids.findIndex(id => id === action.payload)
+            if (existingIdIndex !== -1) {
+                state.ids.splice(existingIdIndex, 1)
             }
         },
     },
 })
 
-const carsSelector = state => state.cars.entities.byId
+const selectCars = state => state.cars.entities
 
-const carIdsSelector = state => state.cars.entities.allIds
+const selectCarIds = state => state.cars.ids
 
-const carByIdSelector = id => createSelector(carsSelector, cars => cars[id])
+const selectCarById = id => createSelector(selectCars, cars => cars[id])
 
-export { carsSelector, carByIdSelector, carIdsSelector }
+export { selectCarIds, selectCars, selectCarById }
 
 export const { addCar, deleteCar } = carsSlice.actions
 

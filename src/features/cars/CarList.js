@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from "react-redux"
 import { AddButton } from "components/AddButton"
 import CarListItem from "./CarListItem"
 
-import { notAssignedCarIdsSelector } from "features/tasks/tasksSlice"
+import { selectFreeCarIds } from "features/tasks/tasksSlice"
 import { addCar } from "./carsSlice"
 
 export const CarList = () => {
     const dispatch = useDispatch()
-    const carIds = useSelector(notAssignedCarIdsSelector)
+    const carIds = useSelector(selectFreeCarIds)
 
     return (
         <div className="cars block">

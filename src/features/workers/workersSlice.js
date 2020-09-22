@@ -9,17 +9,15 @@ const workerIds = Object.keys(normalizedWorkers)
 const workersSlice = createSlice({
     name: "workers",
     initialState: {
-        entities: {
-            byId: normalizedWorkers,
-            allIds: workerIds,
-        },
+        entities: normalizedWorkers,
+        ids: workerIds,
     },
     reducers: {
         addWorker: {
             reducer: (state, action) => {
                 const { id } = action.payload
-                state.entities.byId[id] = action.payload
-                state.entities.allIds.push(id)
+                state.entities[id] = action.payload
+                state.ids.push(id)
             },
             prepare: ({ firstName, lastName, isGeodesist, address, group, region }) => {
                 return {
@@ -36,22 +34,19 @@ const workersSlice = createSlice({
             },
         },
         deleteWorker(state, action) {
-            delete state.entities.byId[action.payload]
-            const index = state.entities.allIds.findIndex(id => id === action.payload)
-            if (index !== -1) {
-                state.entities.allIds.splice(index, 1)
-            }
+            delete state.entities[action.payload]
+            state.ids = Object.keys(state.entities)
         },
     },
 })
 
-const workersSelector = state => state.workers.entities.byId
+const selectWorkers = state => state.workers.entities
 
-const workerIdsSelector = state => state.workers.entities.allIds
+const selectWorkerIds = state => state.workers.ids
 
-const workerByIdSelector = id => createSelector(workersSelector, workers => workers[id])
+const selectWorkerById = id => createSelector(selectWorkers, workers => workers[id])
 
-export { workersSelector, workerIdsSelector, workerByIdSelector }
+export { selectWorkers, selectWorkerIds, selectWorkerById }
 
 export const { addWorker, deleteWorker } = workersSlice.actions
 

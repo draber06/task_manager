@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { DeleteButton } from "components/DeleteButton"
 
-import { carByIdSelector, deleteCar } from "./carsSlice"
-import { assignCar, activeProjectIdSelector } from "features/tasks/tasksSlice"
+import { deleteCar, selectCarById } from "./carsSlice"
+import { assignCar, selectActiveProjectId } from "features/tasks/tasksSlice"
 
 const CarListItem = ({ id }) => {
     const dispatch = useDispatch()
-    const { name } = useSelector(carByIdSelector(id))
-    const activeProjectId = useSelector(activeProjectIdSelector)
+    const { name } = useSelector(selectCarById(id))
+    const activeProjectId = useSelector(selectActiveProjectId)
 
     const handleClick = () => {
         // if there is no active project do nothing
