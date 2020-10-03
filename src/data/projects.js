@@ -1,4 +1,4 @@
-const projects = [
+export const projects = [
     {
         id: 1,
         name: "Витино",
@@ -16,5 +16,3 @@ const projects = [
         name: "Гарькавого",
     },
 ]
-
-export { projects }

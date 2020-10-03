@@ -1,7 +1,7 @@
-let regions = ["N", "S", "Н", "Т"]
-let groups = ["М", "К"]
+export const regions = ["N", "S", "Н", "Т"]
+export const groups = ["М", "К"]
 
-const workers = [
+export const workers = [
     {
         id: 1,
         firstName: "Сергей",
@@ -183,5 +183,3 @@ const workers = [
         region: regions[0],
     },
 ]
-
-export { workers, groups, regions }

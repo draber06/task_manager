@@ -1,24 +1,25 @@
-import { createSelector, createSlice, nanoid } from "@reduxjs/toolkit"
+import { createSlice, nanoid, createEntityAdapter } from "@reduxjs/toolkit"
+import { normalize, schema } from "normalizr"
 
 import { cars } from "data/cars"
-import { normalizeById } from "utils/reducesUtils"
 
-const normalizedCars = normalizeById(cars)
-const carIds = Object.keys(normalizedCars)
+const carsAdapter = createEntityAdapter()
+
+const carSchema = new schema.Entity("cars")
+const carListSchema = [carSchema]
+
+const { entities, result } = normalize(cars, carListSchema)
+const initialState = carsAdapter.getInitialState({
+    entities: entities.cars,
+    ids: result,
+})
 
 const carsSlice = createSlice({
     name: "cars",
-    initialState: {
-        entities: normalizedCars,
-        ids: carIds,
-    },
+    initialState,
     reducers: {
         addCar: {
-            reducer: (state, action) => {
-                const { id } = action.payload
-                state.entities[id] = action.payload
-                state.ids.push(id)
-            },
+            reducer: carsAdapter.addOne,
             prepare: name => {
                 const id = nanoid()
                 return {
@@ -26,20 +27,15 @@ const carsSlice = createSlice({
                 }
             },
         },
-        deleteCar(state, action) {
-            delete state.entities[action.payload]
-            state.ids = Object.keys(state.entities)
-        },
+        deleteCar: carsAdapter.removeOne,
     },
 })
 
-const selectCars = state => state.cars.entities
-
-const selectCarIds = state => state.cars.ids
-
-const selectCarById = id => createSelector(selectCars, cars => cars[id])
-
-export { selectCarIds, selectCars, selectCarById }
+export const {
+    selectAll: selectAllCars,
+    selectById: selectCarById,
+    selectIds: selectCarIds,
+} = carsAdapter.getSelectors(state => state.cars)
 
 export const { addCar, deleteCar } = carsSlice.actions
 

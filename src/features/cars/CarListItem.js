@@ -8,7 +8,7 @@ import { assignCar, selectActiveProjectId } from "features/tasks/tasksSlice"
 
 const CarListItem = ({ id }) => {
     const dispatch = useDispatch()
-    const { name } = useSelector(selectCarById(id))
+    const { name } = useSelector(state => selectCarById(state, id))
     const activeProjectId = useSelector(selectActiveProjectId)
 
     const handleClick = () => {

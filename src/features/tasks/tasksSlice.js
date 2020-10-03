@@ -1,6 +1,6 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit"
 
-import { selectCarIds, selectCars } from "features/cars/carsSlice"
+import { selectCarIds, selectAllCars } from "features/cars/carsSlice"
 import { selectWorkers } from "features/workers/workersSlice"
 import { selectProjects } from "features/projects/projectsSlice"
 
@@ -72,7 +72,7 @@ const selectTaskById = id =>
     createSelector(
         selectTasks,
         selectProjects,
-        selectCars,
+        selectAllCars,
         selectWorkers,
         (tasks, projects, cars, workers) => {
             const { projectId, carIds, workerIds } = tasks[id]

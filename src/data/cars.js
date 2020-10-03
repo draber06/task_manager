@@ -1,4 +1,4 @@
-const cars = [
+export const cars = [
     {
         id: 1,
         name: "Ларгус1",
@@ -20,5 +20,3 @@ const cars = [
         name: "Газель",
     },
 ]
-
-export { cars }
