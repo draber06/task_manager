@@ -1,43 +1,40 @@
-import { createSlice, nanoid, createSelector } from "@reduxjs/toolkit"
+import { createSlice, nanoid, createEntityAdapter } from "@reduxjs/toolkit"
+import { schema, normalize } from "normalizr"
 
 import { projects } from "data/projects"
-import { normalizeById } from "utils/reducesUtils"
 
-const normalizedProjects = normalizeById(projects)
-const projectIds = Object.keys(normalizedProjects)
+const projectsAdapter = createEntityAdapter()
+
+const projectSchema = new schema.Entity("projects")
+const projectListSchema = [projectSchema]
+
+const { entities, result: ids } = normalize(projects, projectListSchema)
+
+const initialState = projectsAdapter.getInitialState({
+    ids,
+    entities: entities.projects,
+})
 
 const projectsSlice = createSlice({
     name: "projects",
-    initialState: {
-        entities: normalizedProjects,
-        ids: projectIds,
-    },
+    initialState,
     reducers: {
         addProject: {
-            reducer(state, action) {
-                const { id } = action.payload
-                state.entities[id] = action.payload
-                state.ids.push(id)
-            },
+            reducer: projectsAdapter.addOne,
             prepare(name) {
                 const id = nanoid()
                 return { payload: { id, name } }
             },
         },
-        deleteProject(state, action) {
-            delete state.entities[action.payload]
-            state.ids = Object.keys(state.entities)
-        },
+        deleteProject: projectsAdapter.removeOne,
     },
 })
 
-const selectProjects = state => state.projects.entities
-
-const selectProjectIds = state => state.projects.ids
-
-const selectProjectById = id => createSelector(selectProjects, projects => projects[id])
-
-export { selectProjectById, selectProjects, selectProjectIds }
+export const {
+    selectAll: selectAllProjects,
+    selectById: selectProjectById,
+    selectIds: selectProjectIds,
+} = projectsAdapter.getSelectors(state => state.projects)
 
 export const { addProject, deleteProject } = projectsSlice.actions
 

@@ -8,7 +8,7 @@ import { deleteProject, selectProjectById } from "./projectsSlice"
 
 export const ProjectListItem = ({ id }) => {
     const dispatch = useDispatch()
-    const { name } = useSelector(selectProjectById(id))
+    const { name } = useSelector(state => selectProjectById(state, id))
     const activeProjectId = useSelector(state => state.tasks.activeProjectId)
 
     return (

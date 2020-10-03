@@ -8,10 +8,11 @@ const carsAdapter = createEntityAdapter()
 const carSchema = new schema.Entity("cars")
 const carListSchema = [carSchema]
 
-const { entities, result } = normalize(cars, carListSchema)
+const { entities, result: ids } = normalize(cars, carListSchema)
+
 const initialState = carsAdapter.getInitialState({
+    ids,
     entities: entities.cars,
-    ids: result,
 })
 
 const carsSlice = createSlice({
