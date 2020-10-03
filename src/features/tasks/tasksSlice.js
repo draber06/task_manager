@@ -1,7 +1,7 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit"
 
 import { selectCarIds, selectAllCars } from "features/cars/carsSlice"
-import { selectWorkers } from "features/workers/workersSlice"
+import { selectAllWorkers } from "features/workers/workersSlice"
 import { selectAllProjects } from "features/projects/projectsSlice"
 
 const tasksSlice = createSlice({
@@ -73,7 +73,7 @@ const selectTaskById = id =>
         selectTasks,
         selectAllProjects,
         selectAllCars,
-        selectWorkers,
+        selectAllWorkers,
         (tasks, projects, cars, workers) => {
             const { projectId, carIds, workerIds } = tasks[id]
             const taskProject = projects[projectId]
@@ -97,7 +97,7 @@ const selectFreeCarIds = createSelector(selectTasks, selectCarIds, (tasks, carId
     return carIds.filter(id => !assignedCarIds.includes(id))
 })
 
-const selectFreeWorkers = createSelector(selectTasks, selectWorkers, (tasks, workers) => {
+const selectFreeWorkers = createSelector(selectTasks, selectAllWorkers, (tasks, workers) => {
     const assignedWorkerIds = Object.values(tasks).reduce(
         (workerIds, task) => workerIds.concat(task.workerIds),
         []

@@ -1,24 +1,26 @@
-import { createSelector, createSlice, nanoid } from "@reduxjs/toolkit"
+import { createEntityAdapter, createSlice, nanoid } from "@reduxjs/toolkit"
+import { normalize, schema } from "normalizr"
 
 import { workers } from "data/workers"
-import { normalizeById } from "utils/reducesUtils"
 
-const normalizedWorkers = normalizeById(workers)
-const workerIds = Object.keys(normalizedWorkers)
+const workersAdapter = createEntityAdapter()
+
+const workerSchema = new schema.Entity("workers")
+const workerListSchema = [workerSchema]
+
+const { entities, result: ids } = normalize(workers, workerListSchema)
+
+const initialState = workersAdapter.getInitialState({
+    ids,
+    entities: entities.workers,
+})
 
 const workersSlice = createSlice({
     name: "workers",
-    initialState: {
-        entities: normalizedWorkers,
-        ids: workerIds,
-    },
+    initialState,
     reducers: {
         addWorker: {
-            reducer: (state, action) => {
-                const { id } = action.payload
-                state.entities[id] = action.payload
-                state.ids.push(id)
-            },
+            reducer: workersAdapter.addOne,
             prepare: ({ firstName, lastName, isGeodesist, address, group, region }) => {
                 return {
                     payload: {
@@ -33,20 +35,15 @@ const workersSlice = createSlice({
                 }
             },
         },
-        deleteWorker(state, action) {
-            delete state.entities[action.payload]
-            state.ids = Object.keys(state.entities)
-        },
+        deleteWorker: workersAdapter.removeOne,
     },
 })
 
-const selectWorkers = state => state.workers.entities
-
-const selectWorkerIds = state => state.workers.ids
-
-const selectWorkerById = id => createSelector(selectWorkers, workers => workers[id])
-
-export { selectWorkers, selectWorkerIds, selectWorkerById }
+export const {
+    selectAll: selectAllWorkers,
+    selectById: selectWorkerById,
+    selectIds: selectWorkerIds,
+} = workersAdapter.getSelectors(state => state.workers)
 
 export const { addWorker, deleteWorker } = workersSlice.actions
 

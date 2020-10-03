@@ -8,7 +8,7 @@ import { selectActiveProjectId, assignWorker } from "features/tasks/tasksSlice"
 
 export const WorkerListItem = ({ id }) => {
     const dispatch = useDispatch()
-    const worker = useSelector(selectWorkerById(id))
+    const worker = useSelector(state => selectWorkerById(state, id))
     const activeProjectId = useSelector(selectActiveProjectId)
 
     const { group, isGeodesist, firstName, lastName, region, address } = worker
