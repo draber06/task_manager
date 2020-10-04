@@ -1,8 +1,6 @@
 import React from "react"
 
-export const RadioButtonsGroup = ({ field, onChange, checkedValue }) => {
-    const { label, name, values } = field
-
+export const RadioButtonsGroup = ({ label, name, values, onChange, checkedValue }) => {
     const handleChange = ({ target: { name, value } }) => onChange(name, value)
 
     return (

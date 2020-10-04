@@ -5,7 +5,7 @@ import { AddButton } from "components/AddButton"
 import { ProjectListItem } from "./ProjectListItem"
 import "./ProjectList.css"
 
-import { addProject, selectProjectIds } from "./projectsSlice"
+import { projectAdded, selectProjectIds } from "./projectsSlice"
 
 export const ProjectList = () => {
     const dispatch = useDispatch()
@@ -16,7 +16,7 @@ export const ProjectList = () => {
             {projectIds.map(id => (
                 <ProjectListItem key={id} id={id} />
             ))}
-            <AddButton onAdd={name => dispatch(addProject(name))} />
+            <AddButton onAdd={name => dispatch(projectAdded(name))} />
         </div>
     )
 }

@@ -19,7 +19,7 @@ const carsSlice = createSlice({
     name: "cars",
     initialState,
     reducers: {
-        addCar: {
+        carAdded: {
             reducer: carsAdapter.addOne,
             prepare: name => {
                 const id = nanoid()
@@ -28,7 +28,7 @@ const carsSlice = createSlice({
                 }
             },
         },
-        deleteCar: carsAdapter.removeOne,
+        carDeleted: carsAdapter.removeOne,
     },
 })
 
@@ -38,6 +38,6 @@ export const {
     selectIds: selectCarIds,
 } = carsAdapter.getSelectors(state => state.cars)
 
-export const { addCar, deleteCar } = carsSlice.actions
+export const { carAdded, carDeleted } = carsSlice.actions
 
 export default carsSlice.reducer

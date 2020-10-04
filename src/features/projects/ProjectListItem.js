@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { DeleteButton } from "components/DeleteButton"
 
 import { setActiveProject } from "features/tasks/tasksSlice"
-import { deleteProject, selectProjectById } from "./projectsSlice"
+import { projectDeleted, selectProjectById } from "./projectsSlice"
 
 export const ProjectListItem = ({ id }) => {
     const dispatch = useDispatch()
@@ -19,7 +19,7 @@ export const ProjectListItem = ({ id }) => {
             onClick={() => dispatch(setActiveProject(id))}
         >
             <div className="block__element-name block__sub-element">{name}</div>
-            <DeleteButton onDelete={() => dispatch(deleteProject(id))} />
+            <DeleteButton onDelete={() => dispatch(projectDeleted(id))} />
         </div>
     )
 }

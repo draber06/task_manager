@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { DeleteButton } from "components/DeleteButton"
 
-import { deleteWorker, selectWorkerById } from "./workersSlice"
+import { workerDeleted, selectWorkerById } from "./workersSlice"
 import { selectActiveProjectId, assignWorker } from "features/tasks/tasksSlice"
 
 export const WorkerListItem = ({ id }) => {
@@ -37,7 +37,7 @@ export const WorkerListItem = ({ id }) => {
             <div className="personal__adress block__sub-element">{address}</div>
 
             <div>
-                <DeleteButton onDelete={() => dispatch(deleteWorker(id))} />
+                <DeleteButton onDelete={() => dispatch(workerDeleted(id))} />
             </div>
         </div>
     )

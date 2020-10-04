@@ -19,7 +19,7 @@ const workersSlice = createSlice({
     name: "workers",
     initialState,
     reducers: {
-        addWorker: {
+        workerAdded: {
             reducer: workersAdapter.addOne,
             prepare: ({ firstName, lastName, isGeodesist, address, group, region }) => {
                 return {
@@ -35,7 +35,7 @@ const workersSlice = createSlice({
                 }
             },
         },
-        deleteWorker: workersAdapter.removeOne,
+        workerDeleted: workersAdapter.removeOne,
     },
 })
 
@@ -45,6 +45,6 @@ export const {
     selectIds: selectWorkerIds,
 } = workersAdapter.getSelectors(state => state.workers)
 
-export const { addWorker, deleteWorker } = workersSlice.actions
+export const { workerAdded, workerDeleted } = workersSlice.actions
 
 export default workersSlice.reducer

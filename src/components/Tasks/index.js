@@ -1,8 +1,8 @@
-import React from "react";
-import { WhatsappShareButton } from "react-share";
-import { WhatsappIcon } from "react-share";
-import ObjectBlock from "./__ObjectBlock";
-import "./index.css";
+import React from "react"
+import { WhatsappShareButton } from "react-share"
+import { WhatsappIcon } from "react-share"
+import ObjectBlock from "./__ObjectBlock"
+import "./index.css"
 
 function Result({ tasks }) {
     // const handleNameClick = (objId, userId) => {
@@ -16,7 +16,7 @@ function Result({ tasks }) {
     // }
 
     // const handleCarClick = (objId, carId) => {
-    //     dispatch({type: "deleteCar", carId, objId})
+    //     dispatch({type: "carDeleted", carId, objId})
 
     //     const cars_copy = cars.map(car => {
     //         if(car.id === carId)
@@ -70,7 +70,7 @@ function Result({ tasks }) {
                 <WhatsappIcon />
             </WhatsappShareButton> */}
         </div>
-    );
+    )
 }
 
-export default Result;
+export default Result

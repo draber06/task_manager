@@ -19,14 +19,14 @@ const projectsSlice = createSlice({
     name: "projects",
     initialState,
     reducers: {
-        addProject: {
+        projectAdded: {
             reducer: projectsAdapter.addOne,
             prepare(name) {
                 const id = nanoid()
                 return { payload: { id, name } }
             },
         },
-        deleteProject: projectsAdapter.removeOne,
+        projectDeleted: projectsAdapter.removeOne,
     },
 })
 
@@ -36,6 +36,6 @@ export const {
     selectIds: selectProjectIds,
 } = projectsAdapter.getSelectors(state => state.projects)
 
-export const { addProject, deleteProject } = projectsSlice.actions
+export const { projectAdded, projectDeleted } = projectsSlice.actions
 
 export default projectsSlice.reducer

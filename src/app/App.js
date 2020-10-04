@@ -1,10 +1,10 @@
 import React from "react"
 
-import "./App.css"
 import { ProjectList } from "features/projects/ProjectList"
 import { CarList } from "features/cars/CarList"
 import { WorkerList } from "features/workers/WorkerList"
 import { TaskList } from "features/tasks/TaskList"
+import "./App.css"
 
 function App() {
     return (

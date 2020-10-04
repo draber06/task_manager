@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { useSelector } from "react-redux"
 
 import { WorkerListItem } from "./WorkerListItem"
-import { AddWorker } from "./AddWorker"
+import { AddWorkerForm } from "./AddWorkerForm"
 import "./WorkerList.css"
 
 import { selectFreeWorkers } from "features/tasks/tasksSlice"
@@ -79,7 +79,7 @@ export const WorkerList = () => {
             <button onClick={() => toggleFormVisibility(!formVisibility)}>
                 {formVisibility ? "Скрыть форму" : "Добавить сотрудника"}
             </button>
-            {formVisibility && <AddWorker />}
+            {formVisibility && <AddWorkerForm />}
         </div>
     )
 }

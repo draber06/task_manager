@@ -1,8 +1,6 @@
 import React from "react"
 
-export const TextField = ({ field, onChange, value }) => {
-    const { name, placeholder, required } = field
-
+export const TextField = ({ name, placeholder, required, onChange, value }) => {
     const handleChange = ({ target: { name, value } }) => onChange(name, value)
 
     return (
