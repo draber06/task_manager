@@ -9,11 +9,11 @@ import { carAdded } from "./carsSlice"
 
 export const CarList = () => {
     const dispatch = useDispatch()
-    const carIds = useSelector(selectFreeCarIds)
+    const cars = useSelector(selectFreeCarIds)
 
     return (
         <div className="cars block">
-            {carIds.map(id => (
+            {cars.map(id => (
                 <CarListItem key={id} id={id} />
             ))}
             <AddButton onAdd={name => dispatch(carAdded(name))} />

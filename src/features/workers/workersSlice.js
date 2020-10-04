@@ -40,7 +40,7 @@ const workersSlice = createSlice({
 })
 
 export const {
-    selectAll: selectAllWorkers,
+    selectEntities: selectAllWorkers,
     selectById: selectWorkerById,
     selectIds: selectWorkerIds,
 } = workersAdapter.getSelectors(state => state.workers)

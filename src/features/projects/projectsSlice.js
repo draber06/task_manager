@@ -31,7 +31,7 @@ const projectsSlice = createSlice({
 })
 
 export const {
-    selectAll: selectAllProjects,
+    selectEntities: selectAllProjects,
     selectById: selectProjectById,
     selectIds: selectProjectIds,
 } = projectsAdapter.getSelectors(state => state.projects)

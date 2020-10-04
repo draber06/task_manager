@@ -4,21 +4,13 @@ import { useDispatch, useSelector } from "react-redux"
 import { DeleteButton } from "components/DeleteButton"
 
 import { workerDeleted, selectWorkerById } from "./workersSlice"
-import { selectActiveProjectId, assignWorker } from "features/tasks/tasksSlice"
+import { assignWorker } from "features/tasks/tasksSlice"
 
 export const WorkerListItem = ({ id }) => {
     const dispatch = useDispatch()
     const worker = useSelector(state => selectWorkerById(state, id))
-    const activeProjectId = useSelector(selectActiveProjectId)
 
     const { group, isGeodesist, firstName, lastName, region, address } = worker
-
-    const handleClick = () => {
-        // if there is no active project do nothing
-        if (!activeProjectId) return
-
-        dispatch(assignWorker(id))
-    }
 
     return (
         <div
@@ -27,7 +19,7 @@ export const WorkerListItem = ({ id }) => {
                 (group === "М" ? "personal__employee_group1 " : "personal__employee_group2 ") +
                 (isGeodesist ? "personal__employee_geodesist" : "personal__employee_assistant")
             }
-            onClick={handleClick}
+            onClick={() => dispatch(assignWorker(id))}
         >
             <div className="personal__name block__sub-element">
                 {lastName} {firstName.slice(0, 1)}

@@ -33,7 +33,7 @@ const carsSlice = createSlice({
 })
 
 export const {
-    selectAll: selectAllCars,
+    selectEntities: selectAllCars,
     selectById: selectCarById,
     selectIds: selectCarIds,
 } = carsAdapter.getSelectors(state => state.cars)

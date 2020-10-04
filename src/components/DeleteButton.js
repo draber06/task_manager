@@ -2,7 +2,8 @@ import React from "react"
 import "./DeleteButton.css"
 
 export const DeleteButton = ({ onDelete }) => {
-    const handleCloseBtnClick = () => {
+    const handleCloseBtnClick = e => {
+        e.stopPropagation()
         const confirmation = window.confirm("Удалить?")
         if (!confirmation) return
 
